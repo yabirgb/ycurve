@@ -1,0 +1,2 @@
+class IncompatibleBaseOperation(Exception):
+    pass
