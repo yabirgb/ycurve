@@ -15,3 +15,11 @@ def test_sum_incompatible_base():
     with pytest.raises(IncompatibleBaseOperation):
         a + b
 
+def test_euclides():
+    GF16 = F2p(4)
+
+    a = GF16.inverse(7)
+    print(a)
+    a = GF16.inverse(5)
+    print(a)
+    assert False
