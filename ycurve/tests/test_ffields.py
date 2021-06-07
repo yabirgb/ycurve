@@ -22,4 +22,9 @@ def test_euclides():
     print(a)
     a = GF16.inverse(5)
     print(a)
+
+    a = GF16.binary_inversion(7)
+    print(a)
+    a = GF16.binary_inversion(5)
+    print(a)
     assert False
