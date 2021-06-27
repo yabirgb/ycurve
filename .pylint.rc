@@ -6,4 +6,5 @@ disable=
     missing-function-docstring,
     line-too-long,
     too-few-public-methods,
-    too-many-instance-attributes
+    too-many-instance-attributes,
+    C0103

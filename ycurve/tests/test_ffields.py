@@ -1,30 +1,19 @@
-import pytest
+from ycurve.ffields.ffield import F2m
 
-from ycurve.ffields.ffield import F2p
-from ycurve.errors import IncompatibleBaseOperation
 
 def test_sum_correct():
-    a = F2p(11, 4)
-    b = F2p(10, 4)
-    assert F2p(1, 4) == a + b
+    a_term = F2m(11, 4)
+    b_term = F2m(10, 4)
 
-def test_sum_incompatible_base():
-    a = F2p(11, 2)
-    b = F2p(10, 4)
+    assert a_term + b_term == F2m(1, 4)
+    assert a_term + b_term == a_term - b_term
 
-    with pytest.raises(IncompatibleBaseOperation):
-        a + b
 
-def test_euclides():
-    GF16 = F2p(4)
+def test_multiply_inversion():
+    a_term = F2m(n=7, m=5)
+    b_term = F2m(n=15, m=5)
 
-    a = GF16.inverse(7)
-    print(a)
-    a = GF16.inverse(5)
-    print(a)
-
-    a = GF16.binary_inversion(7)
-    print(a)
-    a = GF16.binary_inversion(5)
-    print(a)
-    assert False
+    product_result = a_term * b_term
+    assert product_result == F2m(n=8, m=5)
+    assert product_result * a_term.inverse() == b_term
+    assert product_result * b_term.inverse() == a_term
