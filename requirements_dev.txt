@@ -1,0 +1,4 @@
+-r requirements.txt
+-r requirements_lint.txt
+
+pytest==6.2.4
