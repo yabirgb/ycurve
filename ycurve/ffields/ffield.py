@@ -64,6 +64,8 @@ class F2m:
         return self.__str__()
 
     def __eq__(self, y: object) -> bool:
+        if isinstance(y, int):
+            return self.n == y
         if not isinstance(y, F2m):
             return NotImplemented
         return (
