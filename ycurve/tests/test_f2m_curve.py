@@ -3,26 +3,30 @@ from ycurve.ffields.ffield import F2m
 from ycurve.ecc.ldpoint import LDPointChar2
 from ycurve.ecc.point import AffinePoint
 
+
 def test_addition():
     a = F2m(1, 3)
     b = F2m(1, 3)
 
-    E = Char2Curve(a, b, 3)
+    e = Char2Curve(a, b, 3)
 
-    inf = LDPointChar2(F2m(1, 3), F2m(1, 3), F2m(0, 3))
-    Q = AffinePoint(F2m(2, 3), F2m(5, 3))
+    inf = LDPointChar2(F2m(1, 3), F2m(0, 3), F2m(0, 3))
+    q = AffinePoint(F2m(2, 3), F2m(5, 3))
     # P is infinity
-    assert E.add(inf, Q) == Q
+    assert e.add(inf, q) == q
 
     # Opposite points
-    P = LDPointChar2(F2m(0, 3), F2m(1, 3), F2m(1, 3))
-    minusP = LDPointChar2(F2m(0, 3), F2m(1, 3) + F2m(0, 3), F2m(1, 3))
+    p = LDPointChar2(F2m(0, 3), F2m(1, 3), F2m(1, 3))
+    minus_p = LDPointChar2(F2m(0, 3), F2m(1, 3) + F2m(0, 3), F2m(1, 3))
 
-    assert E.add(P, minusP) == inf
+    assert e.add(p, minus_p) == inf
 
     # Doubling
-    P = LDPointChar2(F2m(0, 3), F2m(1, 3), F2m(1, 3))
-    Q = AffinePoint(F2m(2, 3), F2m(5, 3))
-    double = E.double(P)
-    add_double = E.add(P, P)
+    p = LDPointChar2(F2m(0, 3), F2m(1, 3), F2m(1, 3))
+    q = AffinePoint(F2m(2, 3), F2m(5, 3))
+    double = e.double(p)
+    add_double = e.add(p, p)
     assert double == add_double
+
+    #p_3 = e.scalar_mul(3, p, LDPointChar2(F2m(1, 3), F2m(0, 3), F2m(0, 3)))
+    #assert p_3 == e.add(double, p)
