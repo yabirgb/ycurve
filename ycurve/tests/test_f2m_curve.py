@@ -27,6 +27,3 @@ def test_addition():
     double = e.double(p)
     add_double = e.add(p, p)
     assert double == add_double
-
-    #p_3 = e.scalar_mul(3, p, LDPointChar2(F2m(1, 3), F2m(0, 3), F2m(0, 3)))
-    #assert p_3 == e.add(double, p)
