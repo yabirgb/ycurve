@@ -64,6 +64,8 @@ class F2m:
         return self.__str__()
 
     def __eq__(self, y: object) -> bool:
+        if isinstance(y, int):
+            return self.n == y
         if not isinstance(y, F2m):
             return NotImplemented
         return (
@@ -81,12 +83,12 @@ class F2m:
     def mul_without_reduction(self, x: int, y: int):
         """
         Right to left comb method for pol multiplication
-        Algorithm 2.34
+        Algorithm 2.33
         """
         result = 0
         mask = 1
         i = 0
-        while i <= self.n:
+        while i <= len(bin(self.n)):
             if mask & y:
                 result = result ^ x
             x = x << 1
@@ -141,6 +143,8 @@ class F2m:
         """
         Computes a ^ -1 mod f
         """
+        if self.n == 0:
+            raise ZeroDivisionError
         a = self.n
         u, v = a, self.generator
         g1, g2 = 1, 0
@@ -186,3 +190,7 @@ class F2m:
 def coefs_to_int(coefs: List[int]) -> int:
     c = [x << y for (x, y) in zip(coefs, range(len(coefs)-1, -1, -1))]
     return reduce(lambda x, y: x | y, c)
+
+
+def coefs_pos_to_int(coefs: List[int]) -> int:
+    return reduce(lambda x, y: x | y, [1 << coef for coef in coefs])
