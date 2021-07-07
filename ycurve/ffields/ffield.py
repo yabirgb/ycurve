@@ -131,13 +131,7 @@ class F2m:
         return (result, f)
 
     def degree_of(self, f: int) -> int:
-        if f == 0:
-            return 0
-        degree = -1
-        while f:
-            f >>= 1
-            degree += 1
-        return degree
+        return len(bin(f)[2:])
 
     def inverse(self) -> F2m:
         """
