@@ -191,5 +191,6 @@ def coefs_to_int(coefs: List[int]) -> int:
     c = [x << y for (x, y) in zip(coefs, range(len(coefs)-1, -1, -1))]
     return reduce(lambda x, y: x | y, c)
 
+
 def coefs_pos_to_int(coefs: List[int]) -> int:
     return reduce(lambda x, y: x | y, [1 << coef for coef in coefs])
