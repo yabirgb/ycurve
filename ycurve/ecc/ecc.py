@@ -33,11 +33,16 @@ class Curve(ABC):
         #    k //= 2
         bin_k = "".join(bin(k)[2:])
         for i, ki in enumerate(bin_k):
-            print(output, f'{i}/{len(bin_k)}')
             output = self.double(output)
             if ki == '1':
                 output = self.add(p, output)
         return output
+
+    def set_order(self, n: int):
+        self.order = n
+
+    def set_base_point(self, p: Point):
+        self.base = p
 
 
 class Char2NonSupersingularCurve(Curve):
