@@ -1,3 +1,4 @@
+# type: ignore
 from abc import ABC, abstractmethod
 from typing import Optional
 
@@ -5,6 +6,7 @@ from typing import Optional
 from ycurve.ffields.ffield import F2m
 from ycurve.ecc.ldpoint import LDPointChar2
 from ycurve.ecc.point import AffinePoint, Point
+
 
 class Curve(ABC):
 
@@ -17,12 +19,20 @@ class Curve(ABC):
         pass
 
     def scalar_mul(self, k: int, p: Point) -> Point:
-        output = AffinePoint(None, None)
-        while k > 0:
-            if k & 1:
-                output = self.add(output, p)
-            p = self.double(p)
-            k >>= 1
+        if isinstance(p, AffinePoint):
+            output = AffinePoint(None, F2m(0, 3))
+        else:
+            return AffinePoint(None, F2m(0, 3))
+        #   while k > 0:
+        #    if k % 2 == 1:
+        #        output = self.add(output, p)
+        #    p = self.double(p)
+        #    k //= 2
+        bin_k = "".join(bin(k)[2:])
+        for ki in bin_k:
+            output = self.double(output)
+            if ki == '1':
+                output = self.add(p, output)
         return output
 
 
@@ -52,7 +62,7 @@ class Char2Curve(Curve):
     def double(self, p: LDPointChar2):
         # If it is infinity point
         if p.is_inf():
-            return LDPointChar2(1, 0, 0)
+            return LDPointChar2(F2m(3, 1), F2m(3, 1), F2m(3, 0))
         t1 = p.z * p.z
         t2 = p.z * p.x
         z3 = t1 * t2
@@ -121,7 +131,6 @@ class Char2Curve(Curve):
 class Char2NonSupersingularCurve(Curve):
 
     def __init__(self, a: F2m, b: F2m):
-    
         self.a = a
         self.b = b
 
@@ -133,11 +142,11 @@ class Char2NonSupersingularCurve(Curve):
         t0 = p.y + q.y
         t1 = p.x + q.x
         if t1 == 0:
-            return AffinePoint(None, None)
+            return AffinePoint(None, 0)
         t3 = t1.inverse()
         lmd = t0 * t3
         lmd_2 = lmd * lmd
-        
+
         x3 = lmd_2 + lmd
         x3 = x3 + p.x
         x3 = x3 + q.x
@@ -164,7 +173,6 @@ class Char2NonSupersingularCurve(Curve):
 class Char2SupersingularCurve(Curve):
 
     def __init__(self, a: F2m, b: F2m, c: F2m):
-    
         self.a = a
         self.b = b
         self.c = c

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from ycurve.ecc.point import Point, PointCoordinates, AffinePoint
 
 
@@ -7,28 +5,28 @@ class LDPointChar2(Point):
 
     def __init__(
         self,
-        x: Optional[PointCoordinates],
-        y: Optional[PointCoordinates],
-        z: Optional[PointCoordinates],
+        x: PointCoordinates,
+        y: PointCoordinates,
+        z: PointCoordinates,
     ):
         self.x = x
         self.y = y
         self.z = z
 
-    def __eq__(self, q: 'LDPointChar2') -> bool:
+    def __eq__(self, q: object) -> bool:
         if isinstance(q, AffinePoint):
             return (
-                self.x == q.x,
-                self.y == q.y,
-                self.z == 1,
+                self.x == q.x and
+                self.y == q.y and
+                self.z == 1
             )
         elif not isinstance(q, LDPointChar2):
             raise NotImplementedError()
 
         return (
-            self.x == q.x,
-            self.y == q.y,
-            self.z == q.z,
+            self.x == q.x and
+            self.y == q.y and
+            self.z == q.z
         )
 
     def __str__(self):
@@ -40,5 +38,5 @@ class LDPointChar2(Point):
     def is_base(self) -> bool:
         return any([a is None for a in [self.x, self.y, self.z]])
 
-    def base_point(self) -> 'LDPointChar2':
+    def base_point(self):
         return None
