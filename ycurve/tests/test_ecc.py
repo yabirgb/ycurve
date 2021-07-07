@@ -1,5 +1,8 @@
+import pytest
+
 from ycurve.ffields.ffield import F2m
 from ycurve.ecc.point import AffinePoint
+from ycurve.errors import InvalidPoint
 from ycurve.tests.fixtures.curves import fixture_k409  # noqa: F401
 
 px = 0xbb211afe3cd3b8dd09d7eebe164ec4c7545644f8fc77b8717a68780275415f2164dbdfa68c68c9b31da7f6cd6bcc6ca3fe24ea  # noqa: E501
@@ -49,11 +52,29 @@ def test_scalar_mul_2(curve_k409):
     assert product == e.add(e.double(p), p)
 
 
-def test_scalar_mul(curve_k409):
+def test_contains(curve_k409):
     e, power, irreducible = curve_k409
     p0 = F2m(px, power, irreducible)
     p1 = F2m(py, power, irreducible)
 
     p = AffinePoint(p0, p1)
-    product = e.scalar_mul(0xfffffe213213478555676765756342323442353523454534534534534534213, p)  # noqa: E501
-    assert product is not None
+    assert e.contains(p)
+
+    p0 = F2m(2, power, irreducible)
+    p1 = F2m(3, power, irreducible)
+    pp = AffinePoint(p0, p1)
+    assert not e.contains(pp)
+
+    with pytest.raises(InvalidPoint):
+        e.add(p, pp)
+
+
+def test_scalar_mul(curve_k409):
+    e, power, irreducible = curve_k409
+    p0 = F2m(0x5748c255cdbd3c0eeea451185220053e2607f6cd3bd6926a9fa986e4bcb280577b75f8c5a64f258bb30d9d87599b01b3244a6e, power, irreducible)  # noqa: E501
+    p1 = F2m(0x120da17e18447580a3aed9e6e56c527b092a77b832a1b2335545af916d13d3d198fb2434131c2c8f77475ab785480cde7139123, power, irreducible)  # noqa: E501
+
+    p = AffinePoint(p0, p1)
+    product = e.scalar_mul(0xff23423432, p)  # noqa: E501
+    assert product.x == 0x1dc4a6cd7088b2fd3a6c340f1427c79589eae0246eb6106bd5f1ac32b941d398db4071cba20bdfb3c7ba795e9021c60bb16462  # noqa: E501
+    assert product.y == 0x1139e507e111751ca49a85fb417eb86a89ea340e76bfab2d3a191c6ac1fb4fa7e8c98eccd654e85f96a0cb484cf72f41f1256be  # noqa: E501

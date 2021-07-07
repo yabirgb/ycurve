@@ -4,3 +4,7 @@ class IncompatibleBaseOperation(Exception):
 
 class UnknownPrimitivePolynom(Exception):
     pass
+
+
+class InvalidPoint(Exception):
+    pass

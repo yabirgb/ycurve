@@ -8,7 +8,7 @@ def test_addition():
     a = F2m(1, 3)
     b = F2m(1, 3)
 
-    e = Char2Curve(a, b, 3)
+    e = Char2Curve(a, b)
 
     inf = LDPointChar2(F2m(1, 3), F2m(0, 3), F2m(0, 3))
     q = AffinePoint(F2m(2, 3), F2m(5, 3))

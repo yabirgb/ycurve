@@ -88,7 +88,7 @@ class F2m:
         result = 0
         mask = 1
         i = 0
-        while i <= len(bin(self.n)):
+        while i <= self.m:
             if mask & y:
                 result = result ^ x
             x = x << 1
@@ -124,7 +124,7 @@ class F2m:
         mask = 1 << i
         while i >= v_degree:
             if mask & f:
-                result ^= 1 << (i - v_degree)
+                result ^= (1 << (i - v_degree))
                 f = f ^ (v << (i - v_degree))
             i -= 1
             mask >>= 1
