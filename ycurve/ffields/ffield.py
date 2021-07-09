@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+"""
+Este módulo permite trabajar con cuerpos binarios. Para usar esta
+parte de la biblioteca se debe usar: ::
+
+    from ycurce.ffields import F2m
+
+Para trabjar con :class: F2m debe hacerse de la siguiente manera:
+
+    >>> a, b = F2m(4, 7), F2m(3, 7)
+    >>> a + b
+    F[2**7](7)
+    >>> a * b
+    F[2**7](12)
+    >>> a.degree()
+    3
+"""
 # Implementation for finity fields
 from __future__ import annotations
 
@@ -132,6 +149,9 @@ class F2m:
 
     def degree_of(self, f: int) -> int:
         return len(bin(f)[2:])
+
+    def degree(self) -> int:
+        return len(bin(self.n)[2:])
 
     def inverse(self) -> F2m:
         """
