@@ -1,2 +1,6 @@
 # ycurves
-Software for my final degree project
+
+Software para la utilización de curvas elípticas en característica dos.
+
+Autor: Yábir García Benchakhtir
+Documentación: https://yabirgb.github.io/ycurve/
