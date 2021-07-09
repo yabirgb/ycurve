@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Algoritmos sobre curvas elípticas &mdash; documentación de ycurve - 1.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="Curvas elípticas" href="cc.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ycurve
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="starting.html">Comenzando con ycurve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cuerpos_finitos.html">Cuerpos finitos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cc.html">Curvas elípticas</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Algoritmos sobre curvas elípticas</a><ul class="simple">
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ycurve</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Algoritmos sobre curvas elípticas</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/algoritmos.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="algoritmos-sobre-curvas-elipticas">
+<h1>Algoritmos sobre curvas elípticas<a class="headerlink" href="#algoritmos-sobre-curvas-elipticas" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-elgamal"></span><p>Implementación del sistema criptográfico de el Gamal.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#elgamal.ElGamal" title="elgamal.ElGamal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElGamal</span></code></a></p></td>
+<td><p>Implementación del criptosistema del Gamal</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="elgamal.ElGamal">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">ElGamal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.ecc.Curve</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/elgamal.html#ElGamal"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#elgamal.ElGamal" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Implementación del criptosistema del Gamal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>curve</strong> – Curva sobre la que se va a trabajar</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="elgamal.ElGamal.encrypt_point">
+<span class="sig-name descname"><span class="pre">encrypt_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.point.Point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publickey</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.point.Point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ycurve.ecc.point.Point</span><span class="p"><span class="pre">,</span> </span><span class="pre">ycurve.ecc.point.Point</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="_modules/elgamal.html#ElGamal.encrypt_point"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#elgamal.ElGamal.encrypt_point" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Dado un punto de la curva que representa un mensaje, cifra el contenido
+de acuerdo al algoritmo de el gamal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg</strong> – Mensaje que se quiere cifrar</p></li>
+<li><p><strong>publickey</strong> – Llave pública usada en el criptosistema</p></li>
+<li><p><strong>seed</strong> – Semilla para la elección en procesos aleatorios</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="elgamal.ElGamal.decrypt_point">
+<span class="sig-name descname"><span class="pre">decrypt_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">private_key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.point.Point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.point.Point</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ycurve.ecc.point.Point</span><a class="reference internal" href="_modules/elgamal.html#ElGamal.decrypt_point"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#elgamal.ElGamal.decrypt_point" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Descifra un mensaje cifrado mediante el método del gamal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>private_key</strong> – Llave privada del sistma</p></li>
+<li><p><strong>c1</strong> – primera componente resultado de cifrar el mensaje</p></li>
+<li><p><strong>c2</strong> – segunda componente resultado de cifrar el mensaje</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="cc.html" class="btn btn-neutral float-left" title="Curvas elípticas" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Yábir García.
+
+    </p>
+  </div>
+    
+    
+    
+    Construido con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,476 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ecc &mdash; documentación de ycurve - 1.0.0</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ycurve
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../starting.html">Comenzando con ycurve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cuerpos_finitos.html">Cuerpos finitos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc.html">Curvas elípticas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algoritmos.html">Algoritmos sobre curvas elípticas</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ycurve</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Código de módulo</a> &raquo;</li>
+        
+      <li>ecc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para ecc</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Este módulo permite trabajar con curvas elípticas:</span>
+
+<span class="sd">    * Supersingulares</span>
+<span class="sd">    * No supersingulares</span>
+
+<span class="sd">Además se definde la clase Char2Curve que implementa curvas no supersingulares</span>
+<span class="sd">usando las coordenadas de López-Dahab</span>
+
+<span class="sd">Ejemplo de uso para definir la curva K409::</span>
+
+<span class="sd">    from ycurve.ecc.ecc import Char2NonSupersingularCurve</span>
+<span class="sd">    from ycurve.ecc.point import AffinePoint</span>
+<span class="sd">    from ycurve.ffields.ffield import F2m, coefs_pos_to_int</span>
+
+<span class="sd">    power = 409</span>
+<span class="sd">    irreducible = coefs_pos_to_int([409, 87, 0])</span>
+
+<span class="sd">    a = F2m(0, power, irreducible)</span>
+<span class="sd">    b = F2m(1, power, irreducible)</span>
+
+<span class="sd">    gx = F2m(k409_b_x, power, irreducible)</span>
+<span class="sd">    gy = F2m(k409_b_y, power, irreducible)</span>
+
+<span class="sd">    g = AffinePoint(gx, gy)</span>
+<span class="sd">    c = Char2NonSupersingularCurve(a, b)</span>
+<span class="sd">    c.set_order(0x7ffffffffffffffffffffffffffffffffffffffffffffffffffe5f83b2d4ea20400ec4557d5ed3e3e7ca5b4b5c83b8e01e5fcf)  # noqa: E501</span>
+<span class="sd">    c.set_base_point(g)</span>
+
+<span class="sd">    return (c, power, irreducible)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="k">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">ycurve.ffields.ffield</span> <span class="k">import</span> <span class="n">F2m</span>
+<span class="kn">from</span> <span class="nn">ycurve.ecc.ldpoint</span> <span class="k">import</span> <span class="n">LDPointChar2</span>
+<span class="kn">from</span> <span class="nn">ycurve.ecc.point</span> <span class="k">import</span> <span class="n">AffinePoint</span><span class="p">,</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">ycurve.errors</span> <span class="k">import</span> <span class="n">InvalidPoint</span>
+
+
+<div class="viewcode-block" id="Curve"><a class="viewcode-back" href="../cc.html#ecc.Curve">[documentos]</a><span class="k">class</span> <span class="nc">Curve</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interfaz para trabajar con curvas elípticas.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Curve.double"><a class="viewcode-back" href="../cc.html#ecc.Curve.double">[documentos]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Point</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Point</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Realiza la operación 2P para un punto P de la curva&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Curve.add"><a class="viewcode-back" href="../cc.html#ecc.Curve.add">[documentos]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">Point</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Point</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Realiza la operación P + Q para dos puntos P, Q de la curva&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Curve.contains"><a class="viewcode-back" href="../cc.html#ecc.Curve.contains">[documentos]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Point</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Comprueba si un punto P pertenece a la curva&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Curve.scalar_mul"><a class="viewcode-back" href="../cc.html#ecc.Curve.scalar_mul">[documentos]</a>    <span class="k">def</span> <span class="nf">scalar_mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Point</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Point</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Realiza la operación kP para un entero k y un punto P&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">AffinePoint</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">F2m</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">F2m</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="c1">#   while k &gt; 0:</span>
+        <span class="c1">#    if k % 2 == 1:</span>
+        <span class="c1">#        output = self.add(output, p)</span>
+        <span class="c1">#    p = self.double(p)</span>
+        <span class="c1">#    k //= 2</span>
+        <span class="n">bin_k</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ki</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bin_k</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ki</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="k">def</span> <span class="nf">set_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">n</span>
+
+    <span class="k">def</span> <span class="nf">set_base_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Point</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="Char2NonSupersingularCurve"><a class="viewcode-back" href="../cc.html#ecc.Char2NonSupersingularCurve">[documentos]</a><span class="k">class</span> <span class="nc">Char2NonSupersingularCurve</span><span class="p">(</span><span class="n">Curve</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Curvas no supersingulares de la forma y^2 + xy = x^3 + ax^2 + b</span>
+
+<span class="sd">    :ivar a: Coeficiente a de la ecuación</span>
+<span class="sd">    :ivar b: Coeficiente b de la ecuación</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">F2m</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">F2m</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+
+<div class="viewcode-block" id="Char2NonSupersingularCurve.contains"><a class="viewcode-back" href="../cc.html#ecc.Char2NonSupersingularCurve.contains">[documentos]</a>    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Point</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">rigth</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+        <span class="k">return</span> <span class="n">left</span> <span class="o">==</span> <span class="n">rigth</span></div>
+
+<div class="viewcode-block" id="Char2NonSupersingularCurve.add"><a class="viewcode-back" href="../cc.html#ecc.Char2NonSupersingularCurve.add">[documentos]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AffinePoint</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">AffinePoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AffinePoint</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">q</span>
+        <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidPoint</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">q</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span>
+        <span class="k">if</span> <span class="n">t1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># p = q o p = -q</span>
+            <span class="k">return</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">t3</span> <span class="o">=</span> <span class="n">t1</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+        <span class="n">lmd</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">*</span> <span class="n">t3</span>
+        <span class="n">lmd_2</span> <span class="o">=</span> <span class="n">lmd</span> <span class="o">*</span> <span class="n">lmd</span>
+
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">lmd_2</span> <span class="o">+</span> <span class="n">lmd</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">lmd</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">x3</span><span class="p">)</span> <span class="o">+</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">AffinePoint</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Char2NonSupersingularCurve.double"><a class="viewcode-back" href="../cc.html#ecc.Char2NonSupersingularCurve.double">[documentos]</a>    <span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AffinePoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AffinePoint</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ZeroDivisionError</span>
+        <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidPoint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">x1_inv</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+        <span class="n">x1_2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">x1_inv</span>
+        <span class="n">lmd</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">t0</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">lmd</span> <span class="o">*</span> <span class="n">lmd</span> <span class="o">+</span> <span class="n">lmd</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">x1_2</span> <span class="o">+</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">lmd</span>
+        <span class="k">return</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Char2Curve"><a class="viewcode-back" href="../cc.html#ecc.Char2Curve">[documentos]</a><span class="k">class</span> <span class="nc">Char2Curve</span><span class="p">(</span><span class="n">Char2NonSupersingularCurve</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Curvas no supersingulares de la forma y^2 + xy = x^3 + ax^2 + b</span>
+<span class="sd">    con coordenadas de Lopez Dahab</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Char2Curve.double"><a class="viewcode-back" href="../cc.html#ecc.Char2Curve.double">[documentos]</a>    <span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">LDPointChar2</span><span class="p">):</span>
+        <span class="c1"># If it is infinity point</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_inf</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">LDPointChar2</span><span class="p">(</span><span class="n">F2m</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">F2m</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">F2m</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">z3</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">t2</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">t2</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">t1</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">t2</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">z3</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">t1</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">y3</span> <span class="o">+</span> <span class="n">t1</span>
+        <span class="k">return</span> <span class="n">LDPointChar2</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">z3</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Char2Curve.add"><a class="viewcode-back" href="../cc.html#ecc.Char2Curve.add">[documentos]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">LDPointChar2</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">AffinePoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LDPointChar2</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">m</span>
+        <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">is_inf</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_inf</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">LDPointChar2</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">t1</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">x3</span>
+        <span class="n">t3</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">q</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">t3</span>
+        <span class="k">if</span> <span class="n">x3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">y3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># case P == Q</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">double</span><span class="p">(</span>
+                    <span class="n">LDPointChar2</span><span class="p">(</span>
+                        <span class="n">F2m</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                        <span class="n">F2m</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                        <span class="n">F2m</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># case P == -Q</span>
+                <span class="k">return</span> <span class="n">LDPointChar2</span><span class="p">(</span>
+                    <span class="n">F2m</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                    <span class="n">F2m</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                    <span class="n">F2m</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span>
+                <span class="p">)</span>
+
+        <span class="n">z3</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">t1</span>
+        <span class="n">t3</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">y3</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">+</span> <span class="n">t2</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">x3</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">*</span> <span class="n">t1</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">y3</span> <span class="o">*</span> <span class="n">y3</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">t2</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">+</span> <span class="n">t3</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">x3</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">z3</span> <span class="o">*</span> <span class="n">z3</span>
+        <span class="n">t3</span> <span class="o">=</span> <span class="n">t3</span> <span class="o">+</span> <span class="n">t2</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">t3</span> <span class="o">*</span> <span class="n">t2</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">t3</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">t2</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">y3</span> <span class="o">+</span> <span class="n">t3</span>
+        <span class="k">return</span> <span class="n">LDPointChar2</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">z3</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Char2SupersingularCurve"><a class="viewcode-back" href="../cc.html#ecc.Char2SupersingularCurve">[documentos]</a><span class="k">class</span> <span class="nc">Char2SupersingularCurve</span><span class="p">(</span><span class="n">Curve</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Curvas supersingulares de la forma y^2 + cy = x^3 + ax^2 + b</span>
+<span class="sd">    :ivar a: Coeficiente a de la ecuación</span>
+<span class="sd">    :ivar b: Coeficiente b de la ecuación</span>
+<span class="sd">    :ivar c: Coeficiente c de la ecuación</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">F2m</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">F2m</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">F2m</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">c</span>
+
+<div class="viewcode-block" id="Char2SupersingularCurve.add"><a class="viewcode-back" href="../cc.html#ecc.Char2SupersingularCurve.add">[documentos]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AffinePoint</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">AffinePoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AffinePoint</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">q</span>
+        <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span>
+        <span class="n">y_12</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">x_12</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">x_12</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">y_12</span> <span class="o">*</span> <span class="n">t0</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">t1</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">+</span> <span class="n">x_12</span>
+        <span class="n">x_31</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">x3</span>
+        <span class="n">y3_pre</span> <span class="o">=</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">x_31</span>
+        <span class="n">t4</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">y3_pre</span> <span class="o">+</span> <span class="n">t4</span>
+
+        <span class="k">return</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Char2SupersingularCurve.double"><a class="viewcode-back" href="../cc.html#ecc.Char2SupersingularCurve.double">[documentos]</a>    <span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AffinePoint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AffinePoint</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ZeroDivisionError</span>
+        <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span>
+        <span class="n">x_11</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">c_m1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+        <span class="n">x_1a</span> <span class="o">=</span> <span class="n">x_11</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span>
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">x_1a</span> <span class="o">*</span> <span class="n">c_m1</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">*</span> <span class="n">t0</span>
+        <span class="n">x_13</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">x3</span>
+        <span class="n">y3_pre</span> <span class="o">=</span> <span class="n">t0</span> <span class="o">*</span> <span class="n">x_13</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+        <span class="n">y3</span> <span class="o">=</span> <span class="n">y3_pre</span> <span class="o">+</span> <span class="n">t1</span>
+
+        <span class="k">return</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Derechos de autor 2021, Yábir García.
+
+    </p>
+  </div>
+    
+    
+    
+    Construido con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
