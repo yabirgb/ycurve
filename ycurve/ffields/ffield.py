@@ -57,7 +57,7 @@ PRIMITIVE_CONWAY_POLS = {
 
 class F2m:
     """
-    Representation of fields of order 2**n
+    Representation of fields of order 2**m
     """
 
     def __init__(self, n: int, m: int, gen: int = None):

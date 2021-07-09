@@ -12,6 +12,8 @@ Contenidos:
 
    starting
    cuerpos_finitos
+   cc
+   algoritmos
 
 .. Índices y tablas
 .. ================
