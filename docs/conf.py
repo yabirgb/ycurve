@@ -19,12 +19,12 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-# sys.path.insert(0, os.path.abspath('../..'))
-sys.path.insert(0, os.path.abspath('../../ycurve'))
-sys.path.insert(0, os.path.abspath('../../../ycurve'))
-sys.path.insert(0, os.path.abspath('../../ycurve/ffields'))
-sys.path.insert(0, os.path.abspath('../../ycurve/ecc'))
-sys.path.insert(0, os.path.abspath('../../ycurve/algorithms'))
+sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('../ycurve'))
+sys.path.insert(0, os.path.abspath('../ycurve'))
+sys.path.insert(0, os.path.abspath('../ycurve/ffields'))
+sys.path.insert(0, os.path.abspath('../ycurve/ecc'))
+sys.path.insert(0, os.path.abspath('../ycurve/algorithms'))
 # sys.path.append(os.path.join(os.path.dirname(__name__), '../../'))
 
 # -- General configuration ------------------------------------------------
@@ -44,6 +44,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
     'sphinx.ext.doctest',
+    "sphinx_rtd_theme",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
