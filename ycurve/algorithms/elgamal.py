@@ -1,6 +1,22 @@
 # -*- coding: utf-8 -*-
-"""
-Implementación del sistema criptográfico de el Gamal.
+"""Implementación del sistema criptográfico de el Gamal.
+
+Ejemplo de uso::
+
+    e, power, irreducible = curve_k409
+    private_key = 0xf42354
+    print(e.base)
+    publickey = e.scalar_mul(private_key, e.base)
+
+    m0 = F2m(qx, power, irreducible)
+    m1 = F2m(qy, power, irreducible)
+    m = AffinePoint(m0, m1)
+    cipher = ElGamal(e)
+    ciphered = cipher.encrypt_point(m, publickey)
+    deciphered = cipher.decrypt_point(private_key, ciphered[0], ciphered[1])
+
+    assert deciphered == m
+
 """
 import random
 from typing import Tuple, Optional

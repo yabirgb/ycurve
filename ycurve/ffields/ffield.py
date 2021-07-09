@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
+"""Aritmética en cuerpos finitos de característica dos
+
 Este módulo permite trabajar con cuerpos binarios. Para usar esta
 parte de la biblioteca se debe usar: ::
 
@@ -57,12 +58,29 @@ PRIMITIVE_CONWAY_POLS = {
 
 class F2m:
     """
-    Representation of fields of order 2**m
+    Representation de elementos en cuerpos de característica dos.
+    En esta clase se utilizan enteros para representar polinomios
+    binarios. Para ello se utilizan los bits que representan al número
+    como coeficientes del polinomio.
+
+    Además interviene un polinomio respecto al que se hacen reducciones módulo.
+    La manera de instanciar la clase es por ejemploe::
+    
+        F2m(3, 7)
+    
+    En este caso se esta instanciando una clase que representa al polinomio tres
+    en F_2^7. El polinomio que se utiliza para reducir es tomado de una lista
+    precalculada.
+
+    Adevertencia: Esta lista tiene polinomios hasta grado 21. Si se supera este grado
+    el usuario está encargado de proveer a la clase con un polinomio irreduble válido.
     """
 
     def __init__(self, n: int, m: int, gen: int = None):
         """
-        m: Power of the field. For example 5 would be F(2^5)
+        :ivar n: Entero que representa al polinomio que se instancia.
+        :ivar m: Potencia del cuerpo.
+        :ivar gen: Polinomio respecto al que se realizan reducciones módulo.
         """
         self.n = n
         self.m = m
@@ -92,9 +110,11 @@ class F2m:
         )
 
     def __add__(self, y: F2m):
+        """Opración de suma"""
         return F2m(self.n ^ y.n, self.m, self.generator)
 
     def __sub__(self, y: F2m):
+        """Operación de diferencia"""
         return self.__add__(y)
 
     def mul_without_reduction(self, x: int, y: int):
@@ -115,6 +135,7 @@ class F2m:
         return result
 
     def __mul__(self, y: F2m):
+        """Operador producto"""
         mul = self.mul_without_reduction(self.n, y.n)
         result = self.full_division(
             mul,
@@ -151,11 +172,12 @@ class F2m:
         return len(bin(f)[2:])
 
     def degree(self) -> int:
+        """Obtiene el grado del polinomio asociado al entero de la instancia"""
         return len(bin(self.n)[2:])
 
     def inverse(self) -> F2m:
         """
-        Computes a ^ -1 mod f
+        Calcula a ^ -1 mod f
         """
         if self.n == 0:
             raise ZeroDivisionError

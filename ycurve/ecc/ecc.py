@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
+"""Operaciones con curvas elípticas sobre cuerpos de característica dos
+
 Este módulo permite trabajar con curvas elípticas:
 
     * Supersingulares
@@ -146,6 +147,9 @@ class Char2Curve(Char2NonSupersingularCurve):
     """
     Curvas no supersingulares de la forma y^2 + xy = x^3 + ax^2 + b
     con coordenadas de Lopez Dahab
+
+    :ivar a: Coeficiente a de la ecuación
+    :ivar b: Coeficiente b de la ecuación
     """
 
     def double(self, p: LDPointChar2):
@@ -221,6 +225,7 @@ class Char2Curve(Char2NonSupersingularCurve):
 class Char2SupersingularCurve(Curve):
     """
     Curvas supersingulares de la forma y^2 + cy = x^3 + ax^2 + b
+
     :ivar a: Coeficiente a de la ecuación
     :ivar b: Coeficiente b de la ecuación
     :ivar c: Coeficiente c de la ecuación
