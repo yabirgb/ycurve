@@ -162,7 +162,8 @@
             
   <h1>Código fuente para ecc</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Operaciones con curvas elípticas sobre cuerpos de característica dos</span>
+
 <span class="sd">Este módulo permite trabajar con curvas elípticas:</span>
 
 <span class="sd">    * Supersingulares</span>
@@ -309,6 +310,9 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Curvas no supersingulares de la forma y^2 + xy = x^3 + ax^2 + b</span>
 <span class="sd">    con coordenadas de Lopez Dahab</span>
+
+<span class="sd">    :ivar a: Coeficiente a de la ecuación</span>
+<span class="sd">    :ivar b: Coeficiente b de la ecuación</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Char2Curve.double"><a class="viewcode-back" href="../cc.html#ecc.Char2Curve.double">[documentos]</a>    <span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">LDPointChar2</span><span class="p">):</span>
@@ -384,6 +388,7 @@
 <div class="viewcode-block" id="Char2SupersingularCurve"><a class="viewcode-back" href="../cc.html#ecc.Char2SupersingularCurve">[documentos]</a><span class="k">class</span> <span class="nc">Char2SupersingularCurve</span><span class="p">(</span><span class="n">Curve</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Curvas supersingulares de la forma y^2 + cy = x^3 + ax^2 + b</span>
+
 <span class="sd">    :ivar a: Coeficiente a de la ecuación</span>
 <span class="sd">    :ivar b: Coeficiente b de la ecuación</span>
 <span class="sd">    :ivar c: Coeficiente c de la ecuación</span>

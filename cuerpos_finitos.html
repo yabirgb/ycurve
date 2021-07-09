@@ -170,7 +170,8 @@
 <h1>Cuerpos finitos<a class="headerlink" href="#cuerpos-finitos" title="Enlazar permanentemente con este título">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<span class="target" id="module-ffield"></span><p>Este módulo permite trabajar con cuerpos binarios. Para usar esta
+<span class="target" id="module-ffield"></span><p>Aritmética en cuerpos finitos de característica dos</p>
+<p>Este módulo permite trabajar con cuerpos binarios. Para usar esta
 parte de la biblioteca se debe usar:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ycurce.ffields</span> <span class="k">import</span> <span class="n">F2m</span>
 </pre></div>
@@ -193,15 +194,36 @@ parte de la biblioteca se debe usar:</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#ffield.F2m" title="ffield.F2m"><code class="xref py py-obj docutils literal notranslate"><span class="pre">F2m</span></code></a></p></td>
-<td><p>Representation of fields of order 2**m</p></td>
+<td><p>Representation de elementos en cuerpos de característica dos.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="ffield.F2m">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">F2m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">gen</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ffield.html#F2m"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ffield.F2m" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Representation of fields of order 2**m</p>
-<p>m: Power of the field. For example 5 would be F(2^5)</p>
+<dd><p>Representation de elementos en cuerpos de característica dos.
+En esta clase se utilizan enteros para representar polinomios
+binarios. Para ello se utilizan los bits que representan al número
+como coeficientes del polinomio.</p>
+<p>Además interviene un polinomio respecto al que se hacen reducciones módulo.
+La manera de instanciar la clase es por ejemploe:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">F2m</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>En este caso se esta instanciando una clase que representa al polinomio tres
+en F_2^7. El polinomio que se utiliza para reducir es tomado de una lista
+precalculada.</p>
+<p>Adevertencia: Esta lista tiene polinomios hasta grado 21. Si se supera este grado
+el usuario está encargado de proveer a la clase con un polinomio irreduble válido.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – Entero que representa al polinomio que se instancia.</p></li>
+<li><p><strong>m</strong> – Potencia del cuerpo.</p></li>
+<li><p><strong>gen</strong> – Polinomio respecto al que se realizan reducciones módulo.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="ffield.F2m.mul_without_reduction">
 <span class="sig-name descname"><span class="pre">mul_without_reduction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ffield.html#F2m.mul_without_reduction"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ffield.F2m.mul_without_reduction" title="Enlazar permanentemente con esta definición">¶</a></dt>
@@ -216,9 +238,15 @@ Algorithm 2.33</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="ffield.F2m.degree">
+<span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(en Python versión 3.9)"><span class="pre">int</span></a><a class="reference internal" href="_modules/ffield.html#F2m.degree"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ffield.F2m.degree" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Obtiene el grado del polinomio asociado al entero de la instancia</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="ffield.F2m.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ffield.F2m" title="ffield.F2m"><span class="pre">ffield.F2m</span></a><a class="reference internal" href="_modules/ffield.html#F2m.inverse"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ffield.F2m.inverse" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Computes a ^ -1 mod f</p>
+<dd><p>Calcula a ^ -1 mod f</p>
 </dd></dl>
 
 </dd></dl>

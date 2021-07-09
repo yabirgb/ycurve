@@ -170,7 +170,8 @@
 <h1>Curvas elípticas<a class="headerlink" href="#curvas-elipticas" title="Enlazar permanentemente con este título">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<span class="target" id="module-ecc"></span><p>Este módulo permite trabajar con curvas elípticas:</p>
+<span class="target" id="module-ecc"></span><p>Operaciones con curvas elípticas sobre cuerpos de característica dos</p>
+<p>Este módulo permite trabajar con curvas elípticas:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>Supersingulares</p></li>
@@ -218,7 +219,7 @@ usando las coordenadas de López-Dahab</p>
 <td><p>Curvas no supersingulares de la forma y^2 + xy = x^3 + ax^2 + b con coordenadas de Lopez Dahab</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#ecc.Char2SupersingularCurve" title="ecc.Char2SupersingularCurve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Char2SupersingularCurve</span></code></a></p></td>
-<td><p>Curvas supersingulares de la forma y^2 + cy = x^3 + ax^2 + b :ivar a: Coeficiente a de la ecuación :ivar b: Coeficiente b de la ecuación :ivar c: Coeficiente c de la ecuación</p></td>
+<td><p>Curvas supersingulares de la forma y^2 + cy = x^3 + ax^2 + b</p></td>
 </tr>
 </tbody>
 </table>
@@ -289,6 +290,14 @@ usando las coordenadas de López-Dahab</p>
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Char2Curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ffields.ffield.F2m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ffields.ffield.F2m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ecc.html#Char2Curve"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ecc.Char2Curve" title="Enlazar permanentemente con esta definición">¶</a></dt>
 <dd><p>Curvas no supersingulares de la forma y^2 + xy = x^3 + ax^2 + b
 con coordenadas de Lopez Dahab</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – Coeficiente a de la ecuación</p></li>
+<li><p><strong>b</strong> – Coeficiente b de la ecuación</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="ecc.Char2Curve.double">
 <span class="sig-name descname"><span class="pre">double</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.ldpoint.LDPointChar2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ecc.html#Char2Curve.double"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ecc.Char2Curve.double" title="Enlazar permanentemente con esta definición">¶</a></dt>
@@ -306,10 +315,16 @@ con coordenadas de Lopez Dahab</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="ecc.Char2SupersingularCurve">
 <em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">Char2SupersingularCurve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ffields.ffield.F2m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ffields.ffield.F2m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ffields.ffield.F2m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ecc.html#Char2SupersingularCurve"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ecc.Char2SupersingularCurve" title="Enlazar permanentemente con esta definición">¶</a></dt>
-<dd><p>Curvas supersingulares de la forma y^2 + cy = x^3 + ax^2 + b
-:ivar a: Coeficiente a de la ecuación
-:ivar b: Coeficiente b de la ecuación
-:ivar c: Coeficiente c de la ecuación</p>
+<dd><p>Curvas supersingulares de la forma y^2 + cy = x^3 + ax^2 + b</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – Coeficiente a de la ecuación</p></li>
+<li><p><strong>b</strong> – Coeficiente b de la ecuación</p></li>
+<li><p><strong>c</strong> – Coeficiente c de la ecuación</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="ecc.Char2SupersingularCurve.add">
 <span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.point.AffinePoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">ycurve.ecc.point.AffinePoint</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">ycurve.ecc.point.AffinePoint</span><a class="reference internal" href="_modules/ecc.html#Char2SupersingularCurve.add"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#ecc.Char2SupersingularCurve.add" title="Enlazar permanentemente con esta definición">¶</a></dt>

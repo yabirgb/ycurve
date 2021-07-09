@@ -162,8 +162,24 @@
             
   <h1>Código fuente para elgamal</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Implementación del sistema criptográfico de el Gamal.</span>
+<span class="sd">&quot;&quot;&quot;Implementación del sistema criptográfico de el Gamal.</span>
+
+<span class="sd">Ejemplo de uso::</span>
+
+<span class="sd">    e, power, irreducible = curve_k409</span>
+<span class="sd">    private_key = 0xf42354</span>
+<span class="sd">    print(e.base)</span>
+<span class="sd">    publickey = e.scalar_mul(private_key, e.base)</span>
+
+<span class="sd">    m0 = F2m(qx, power, irreducible)</span>
+<span class="sd">    m1 = F2m(qy, power, irreducible)</span>
+<span class="sd">    m = AffinePoint(m0, m1)</span>
+<span class="sd">    cipher = ElGamal(e)</span>
+<span class="sd">    ciphered = cipher.encrypt_point(m, publickey)</span>
+<span class="sd">    deciphered = cipher.decrypt_point(private_key, ciphered[0], ciphered[1])</span>
+
+<span class="sd">    assert deciphered == m</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>

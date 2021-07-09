@@ -162,7 +162,8 @@
             
   <h1>Código fuente para ffield</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Aritmética en cuerpos finitos de característica dos</span>
+
 <span class="sd">Este módulo permite trabajar con cuerpos binarios. Para usar esta</span>
 <span class="sd">parte de la biblioteca se debe usar: ::</span>
 
@@ -220,12 +221,29 @@
 
 <div class="viewcode-block" id="F2m"><a class="viewcode-back" href="../cuerpos_finitos.html#ffield.F2m">[documentos]</a><span class="k">class</span> <span class="nc">F2m</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Representation of fields of order 2**m</span>
+<span class="sd">    Representation de elementos en cuerpos de característica dos.</span>
+<span class="sd">    En esta clase se utilizan enteros para representar polinomios</span>
+<span class="sd">    binarios. Para ello se utilizan los bits que representan al número</span>
+<span class="sd">    como coeficientes del polinomio.</span>
+
+<span class="sd">    Además interviene un polinomio respecto al que se hacen reducciones módulo.</span>
+<span class="sd">    La manera de instanciar la clase es por ejemploe::</span>
+<span class="sd">    </span>
+<span class="sd">        F2m(3, 7)</span>
+<span class="sd">    </span>
+<span class="sd">    En este caso se esta instanciando una clase que representa al polinomio tres</span>
+<span class="sd">    en F_2^7. El polinomio que se utiliza para reducir es tomado de una lista</span>
+<span class="sd">    precalculada.</span>
+
+<span class="sd">    Adevertencia: Esta lista tiene polinomios hasta grado 21. Si se supera este grado</span>
+<span class="sd">    el usuario está encargado de proveer a la clase con un polinomio irreduble válido.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        m: Power of the field. For example 5 would be F(2^5)</span>
+<span class="sd">        :ivar n: Entero que representa al polinomio que se instancia.</span>
+<span class="sd">        :ivar m: Potencia del cuerpo.</span>
+<span class="sd">        :ivar gen: Polinomio respecto al que se realizan reducciones módulo.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
@@ -255,9 +273,11 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">F2m</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Opración de suma&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">F2m</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">^</span> <span class="n">y</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">F2m</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Operación de diferencia&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
 <div class="viewcode-block" id="F2m.mul_without_reduction"><a class="viewcode-back" href="../cuerpos_finitos.html#ffield.F2m.mul_without_reduction">[documentos]</a>    <span class="k">def</span> <span class="nf">mul_without_reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
@@ -278,6 +298,7 @@
         <span class="k">return</span> <span class="n">result</span></div>
 
     <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">F2m</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Operador producto&quot;&quot;&quot;</span>
         <span class="n">mul</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mul_without_reduction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_division</span><span class="p">(</span>
             <span class="n">mul</span><span class="p">,</span>
@@ -313,12 +334,13 @@
     <span class="k">def</span> <span class="nf">degree_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])</span>
 
-    <span class="k">def</span> <span class="nf">degree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])</span>
+<div class="viewcode-block" id="F2m.degree"><a class="viewcode-back" href="../cuerpos_finitos.html#ffield.F2m.degree">[documentos]</a>    <span class="k">def</span> <span class="nf">degree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Obtiene el grado del polinomio asociado al entero de la instancia&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)[</span><span class="mi">2</span><span class="p">:])</span></div>
 
 <div class="viewcode-block" id="F2m.inverse"><a class="viewcode-back" href="../cuerpos_finitos.html#ffield.F2m.inverse">[documentos]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">F2m</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes a ^ -1 mod f</span>
+<span class="sd">        Calcula a ^ -1 mod f</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ZeroDivisionError</span>

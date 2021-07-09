@@ -170,6 +170,22 @@
 <div class="toctree-wrapper compound">
 </div>
 <span class="target" id="module-elgamal"></span><p>Implementación del sistema criptográfico de el Gamal.</p>
+<p>Ejemplo de uso:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">irreducible</span> <span class="o">=</span> <span class="n">curve_k409</span>
+<span class="n">private_key</span> <span class="o">=</span> <span class="mh">0xf42354</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
+<span class="n">publickey</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">scalar_mul</span><span class="p">(</span><span class="n">private_key</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">base</span><span class="p">)</span>
+
+<span class="n">m0</span> <span class="o">=</span> <span class="n">F2m</span><span class="p">(</span><span class="n">qx</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">irreducible</span><span class="p">)</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">F2m</span><span class="p">(</span><span class="n">qy</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">irreducible</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">AffinePoint</span><span class="p">(</span><span class="n">m0</span><span class="p">,</span> <span class="n">m1</span><span class="p">)</span>
+<span class="n">cipher</span> <span class="o">=</span> <span class="n">ElGamal</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="n">ciphered</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">encrypt_point</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">publickey</span><span class="p">)</span>
+<span class="n">deciphered</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt_point</span><span class="p">(</span><span class="n">private_key</span><span class="p">,</span> <span class="n">ciphered</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ciphered</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="k">assert</span> <span class="n">deciphered</span> <span class="o">==</span> <span class="n">m</span>
+</pre></div>
+</div>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
