@@ -65,15 +65,16 @@ class F2m:
 
     Además interviene un polinomio respecto al que se hacen reducciones módulo.
     La manera de instanciar la clase es por ejemploe::
-    
-        F2m(3, 7)
-    
-    En este caso se esta instanciando una clase que representa al polinomio tres
-    en F_2^7. El polinomio que se utiliza para reducir es tomado de una lista
-    precalculada.
 
-    Adevertencia: Esta lista tiene polinomios hasta grado 21. Si se supera este grado
-    el usuario está encargado de proveer a la clase con un polinomio irreduble válido.
+        F2m(3, 7)
+
+    En este caso se esta instanciando una clase que representa al polinomio
+    tres en F_2^7. El polinomio que se utiliza para reducir es tomado de una
+    lista precalculada.
+
+    Adevertencia: Esta lista tiene polinomios hasta grado 21. Si se supera este
+    grado el usuario está encargado de proveer a la clase con un polinomio
+    irreduble válido.
     """
 
     def __init__(self, n: int, m: int, gen: int = None):
